@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Hello Bulma!</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+  </head>
+  <body>
+  <section class="section">
+    <div class="container">
+      <h1 class="title">
+        IOT
+      </h1>
+    
+    <div class="columns">
+            <div class="column">
+                <h2 class="title">Arduino 1</h1>
+                Temperatura: <div id="test"></div>
+            </div>
+            <div class="column">
+                <h2 class="title">Arduino 2</h1>
+                Temperatura: <div id="test2">15</div>
+            </div>
+            <div class="column">
+                <h2 class="title">Arduino 3</h1>
+                Temperatura: <div id="test3">13</div>
+            </div>
+            <div class="column">
+                <h2 class="title">Arduino 4</h1>
+                Temperatura: <div id="test4">12</div>
+            </div>
+          </div>
+        </div>
+    <div class="field">
+        <input id="switchExample" type="checkbox" name="switchExample" class="switch" checked="checked">
+        <label for="switchExample">Switch example</label>
+      </div>
+  </section>
+    <script src="https://www.gstatic.com/firebasejs/7.4.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-database.js"></script>
+    <script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+        apiKey: "AIzaSyABJRFnIdfLyNCwvT1xg-gd-GNJzdpOpYA",
+        authDomain: "bd-grupo-03.firebaseapp.com",
+        databaseURL: "https://bd-grupo-03.firebaseio.com",
+        projectId: "bd-grupo-03",
+        storageBucket: "bd-grupo-03.appspot.com",
+        messagingSenderId: "891548880702",
+        appId: "1:891548880702:web:931da7894252d7f1e1266f",
+        measurementId: "G-9H5KS8CCLQ"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+
+    var test = document.getElementById('test')
+    var refData = firebase.database().ref('arduino1').limitToLast(100)
+
+
+
+
+    var cogerData = function(postsRef, sectionElement) {
+    postsRef.on('child_added', function(data) {
+      var temp = data.val().temperatura_cpu || 'error';
+      console.log(data)
+      console.log(temp)
+      test.innerHTML = temp
+    });
+    postsRef.on('child_changed', function(data) {
+      var containerElement = sectionElement.getElementsByClassName('posts-container')[0];
+      var postElement = containerElement.getElementsByClassName('post-' + data.key)[0];
+      postElement.getElementsByClassName('mdl-card__title-text')[0].innerText = data.val().title;
+      postElement.getElementsByClassName('username')[0].innerText = data.val().temp;
+      postElement.getElementsByClassName('text')[0].innerText = data.val().body;
+      postElement.getElementsByClassName('star-count')[0].innerText = data.val().starCount;
+    });
+    postsRef.on('child_removed', function(data) {
+      var containerElement = sectionElement.getElementsByClassName('posts-container')[0];
+      var post = containerElement.getElementsByClassName('post-' + data.key)[0];
+      post.parentElement.removeChild(post);
+    });
+  };
+
+  cogerData(refData, test)
+    </script>
+  <script src="main.js"></script>
+  </body>
+</html>
