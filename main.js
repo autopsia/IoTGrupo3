@@ -33,9 +33,16 @@ refData.on('value', function(data){
   var key = Object.keys(data.val())[0]
   console.log(key)
   console.log(data.length);
-  var tempCPU = data.val().Temperatura_Cpu || 'error';
-  var tempAr = data.val().Temperatura_Arduino || 'error';
+  var tempCPU = data.val().Temperatura_Cpu || 'error'
+  var tempAr = data.val().Temperatura_Arduino || 'error'
+  var alarma = data.val().alarma || false
+
   document.getElementById("tempCPU"+numDiv).innerHTML = tempCPU
-  document.getElementById("tempArduino"+numDiv).innerHTML = tempCPU
+  document.getElementById("tempArduino"+numDiv).innerHTML = tempAr
+  if(alarma){
+    document.getElementById("alarmaEstado"+numDiv).classList.add('checked')
+  } else {
+    document.getElementById("alarmaEstado"+numDiv).classList.remove('checked')
+  }
 })
 }
