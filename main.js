@@ -1,3 +1,5 @@
+document.getElementById("datehoy").innerHTML = new Date
+
 var firebaseConfig = {
     apiKey: "AIzaSyABJRFnIdfLyNCwvT1xg-gd-GNJzdpOpYA",
     authDomain: "bd-grupo-03.firebaseapp.com",
